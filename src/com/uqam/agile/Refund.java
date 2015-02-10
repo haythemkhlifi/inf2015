@@ -32,29 +32,32 @@ public class Refund {
         " ]\n" +
         "}";
         
-        boolean error = false;
+        boolean fileError = false;
         
-        JSONObject obj = new JSONObject(str) ;
-    
-        String contract  = obj.getString("contrat").toLowerCase();
+        JSONObject obj = new JSONObject(str) ; 
+        JSONObject objTemp;
         
+        String contract  = obj.getString("contrat");
+        int client  = obj.getInt("client");
+        String mois  = obj.getString("mois");
         JSONArray arr = obj.getJSONArray("reclamations");
         
         for (int i = 0; i < arr.length(); i++)
         {
-            System.out.println(arr.getJSONObject(i));
+            objTemp = arr.getJSONObject(i);
+            System.out.println(objTemp.getInt("soin"));
         }
         
          switch (contract) {
-            case "a":  
+            case "A":  
                      break;
-            case "b":  
+            case "B":  
                      break;
-            case "c":  
+            case "C":  
                      break;
-            case "d":  
+            case "D":  
                      break;
-            default: error= true;
+            default: fileError = true;
                      break;
         }
     }
