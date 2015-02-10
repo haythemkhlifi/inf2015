@@ -1,11 +1,6 @@
 package com.uqam.agile;
+import java.util.Iterator;
 import org.json.*;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -36,15 +31,32 @@ public class Refund {
         " }\n" +
         " ]\n" +
         "}";
+        
+        boolean error = false;
+        
         JSONObject obj = new JSONObject(str) ;
     
-        String pageName = obj.getJSONObject("pageInfo").getString("pageName");
-
-        JSONArray arr = obj.getJSONArray("posts");
-
-        //for(int i =0; i < arr.length(); i++)
-        //    String post_id = arr.getJSONObject(i).getString("post_id");
-        //}
+        String contract  = obj.getString("contrat").toLowerCase();
+        
+        JSONArray arr = obj.getJSONArray("reclamations");
+        
+        for (int i = 0; i < arr.length(); i++)
+        {
+            System.out.println(arr.getJSONObject(i));
+        }
+        
+         switch (contract) {
+            case "a":  
+                     break;
+            case "b":  
+                     break;
+            case "c":  
+                     break;
+            case "d":  
+                     break;
+            default: error= true;
+                     break;
+        }
     }
 
 }
