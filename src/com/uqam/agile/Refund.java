@@ -63,16 +63,16 @@ public class Refund {
         }
     }
     
-    public static int calculMontantA(long soin, String prix){
+    public static int calculMontantA(long soin, String montant){
         return 0;
     }
-    public static int calculMontantB(long soin, String prix){
+    public static int calculMontantB(long soin, String montant){
         return 0;
     }
-    public static int calculMontantC(long soin, String prix){
+    public static int calculMontantC(long soin, String montant){
         return 0;
     }
-    public static int calculMontantD(long soin, String prix){
+    public static int calculMontantD(long soin, String montant){
         return 0;
     }
     
