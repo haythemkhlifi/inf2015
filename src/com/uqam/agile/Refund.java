@@ -1,6 +1,13 @@
 package com.uqam.agile;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Iterator;
-import org.json.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -8,57 +15,22 @@ import org.json.*;
  */
 public class Refund {
     
-    public static void main(String[] args) {
-        String str = "{\n" +
-        " \"client\": \"100323\",\n" +
-        " \"contrat\": \"A\",\n" +
-        " \"mois\": \"2015-01\",\n" +
-        " \"reclamations\": [\n" +
-        " {\n" +
-        " \"soin\": 100,\n" +
-        " \"date\": \"2015-01-11\",\n" +
-        " \"montant\": \"234.00$\"\n" +
-        " },\n" +
-        " {\n" +
-        " \"soin\": 200,\n" +
-        " \"date\": \"2015-01-13\",\n" +
-        " \"montant\": \"90.00$\"\n" +
-        " },\n" +
-        " {\n" +
-        " \"soin\": 334,\n" +
-        " \"date\": \"2015-01-23\",\n" +
-        " \"montant\": \"125.00$\"\n" +
-        " }\n" +
-        " ]\n" +
-        "}";
-        
+    public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
+        JSONParser parser = new JSONParser();
         boolean fileError = false;
-        
-        JSONObject obj = new JSONObject(str) ; 
-        JSONObject objTemp;
-        
-        String contract  = obj.getString("contrat");
-        int client  = obj.getInt("client");
-        String mois  = obj.getString("mois");
-        JSONArray arr = obj.getJSONArray("reclamations");
-        
-        for (int i = 0; i < arr.length(); i++)
-        {
-            objTemp = arr.getJSONObject(i);
-            System.out.println(objTemp.getInt("soin"));
+        try {
+            Object fileobject = parser.parse(new FileReader("file.json"));
+            JSONObject obj = (JSONObject) fileobject;
+
+            String contrat  = (String) obj.get("contrat");
+            String client  = (String) obj.get("client");
+            String mois  = (String) obj.get("mois");
+            JSONArray reclamations = (JSONArray) obj.get("reclamations");
+            
+            
         }
-        
-         switch (contract) {
-            case "A":  
-                     break;
-            case "B":  
-                     break;
-            case "C":  
-                     break;
-            case "D":  
-                     break;
-            default: fileError = true;
-                     break;
+        catch( Exception e){
+            fileError = true;
         }
     }
 
