@@ -3,7 +3,13 @@ package com.uqam.agile;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
+import java.util.regex.Pattern;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -35,11 +41,22 @@ public class Refund {
             JSONArray reclamations = (JSONArray) obj.get("reclamations");
             /////////////////////////////////////////////////////////
             
+            //Vérifie si le numéro de client est correct
+            Pattern digitPattern = Pattern.compile("\\d\\d\\d\\d\\d\\d");
+            if( !digitPattern.matcher(client).matches() ) 
+                errorDetected = true;
+            
             //on parcours la liste des réclamations
             Iterator i = reclamations.iterator();
             while (i.hasNext()) {
                 JSONObject slide = (JSONObject) i.next();
+                //on récupère le num correspondant au type de soin de la réclamation
                 long soin = (long)slide.get("soin");
+                //on récupère le date de la réclamation
+                String dateReclamation = (String)slide.get("date");
+                //Vérifie si la date de la réclamation correspond a la date courrante
+                reclamationMoisCourrant(mois,dateReclamation);
+                //on récupère le montant de la réclamation
                 String montant = (String)slide.get("montant");
                 //on vérifie quelle type de contrat est assigné au client et on fais le calcul en fonction de celui-ci
                 switch (contrat) {
@@ -77,12 +94,46 @@ public class Refund {
     
     public static boolean errorDetected = false;
     
+    /**
+     * Vérifie si la date de la réclamation correspond a la date courrante 
+     * @param mois
+     * @param dateReclamation
+     * @return 
+     */
+    public static Boolean reclamationMoisCourrant(String mois, String dateReclamation){
+        try {
+            DateFormat formatMois = new SimpleDateFormat("yyyy-MM");
+            DateFormat formatReclamation = new SimpleDateFormat("yyyy-MM-dd");
+            
+            Date moisDate = formatMois.parse(mois);
+            Date reclamationDate = formatReclamation.parse(dateReclamation);
+            
+            if (moisDate.getMonth() == reclamationDate.getMonth()){
+                return true;
+            }
+        } catch (ParseException ex) {
+            errorDetected = true;
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * @param montant
+     * @return 
+     */
     public static Float getMontantFromString(String montant){
         String[] data = montant.split("\\$");
         Float montantConverti =  Float.parseFloat(data[0]);       
         return montantConverti ;
     }  
-
+    
+    /**
+     * 
+     * @param soin
+     * @param montant
+     * @return 
+     */
     public static String calculMontantA(long soin, float montant){
         if (soin == 0)
             montant = (montant /100)*25;
@@ -105,7 +156,12 @@ public class Refund {
         return String.format("%.02f",montant)+"$";
     }
 
-    
+    /**
+     * 
+     * @param soin
+     * @param montant
+     * @return 
+     */
     public static String calculMontantB(long soin, float montant){
         if (soin == 0){
             montant = (montant /100)*50;
@@ -140,14 +196,24 @@ public class Refund {
         
         return String.format("%.02f",montant)+"$";
     }
-    
+    /**
+     * 
+     * @param soin
+     * @param montant
+     * @return 
+     */
     public static String calculMontantC(long soin, float montant){
         if (soin != 100 && soin != 200 && !(soin >= 300 && soin >= 399) 
                 && soin != 400 && soin != 500 && soin != 600 && soin != 700)
             errorDetected = true;
         return String.format("%.02f",(montant/100)*90)+"$";
     }
-    
+    /**
+     * 
+     * @param soin
+     * @param montant
+     * @return 
+     */
     public static String calculMontantD(long soin, float montant){
         if (soin == 0 && montant >= 85)
             montant = 85;
@@ -170,6 +236,11 @@ public class Refund {
         return String.format("%.02f",montant)+"$";
     }
     
+    /**
+     * Méthode pour écrire des object JSON dans un fichier de sortie
+     * @param obj
+     * @throws IOException 
+     */
     public static void saveOutputFile(JSONObject obj) throws IOException{
         FileWriter file = new FileWriter("output.json");
         try {
