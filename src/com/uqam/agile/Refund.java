@@ -85,7 +85,7 @@ public class Refund {
             if (errorDetected) resultingObj = errorObj;
             //Sauvegarde l'objet JSON dans le fichier de sortie
             saveOutputFile(resultingObj, outputFile);
-            ///////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////
         }
         catch( Exception e){
             saveOutputFile(errorObj, outputFile);
@@ -111,6 +111,7 @@ public class Refund {
             
             if (moisDate.getMonth() == reclamationDate.getMonth()){
                 return true;
+                
             }
         } catch (ParseException ex) {
             errorDetected = true;
