@@ -101,6 +101,7 @@ public class Refund {
             errorDetected = true;
         return String.format("%.02f",montant)+"$";
     }
+
     
     public static String calculMontantB(long soin, float montant){
         if (soin == 0){
