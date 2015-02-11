@@ -17,13 +17,14 @@ import org.json.simple.parser.JSONParser;
 public class Refund {
     public static void main(String[] args) throws IOException {
         JSONParser parser = new JSONParser();
-        
+        String outputFile = "output.json";
+        String inputFile = "file.json";
         //L'object JSON retournée en cas d'erreur
         JSONObject errorObj = new JSONObject();
         errorObj.put("message","Données invalides");
   
         try {
-            Object fileobject = parser.parse(new FileReader("file.json"));
+            Object fileobject = parser.parse(new FileReader(inputFile));
             JSONObject obj = (JSONObject) fileobject;
             
             //L'object JSON qui sera sauvegarder Dans le fichier de sortie
@@ -83,11 +84,11 @@ public class Refund {
             //En cas d'erreur (données Invalides)
             if (errorDetected) resultingObj = errorObj;
             //Sauvegarde l'objet JSON dans le fichier de sortie
-            saveOutputFile(resultingObj);
+            saveOutputFile(resultingObj, outputFile);
             ///////////////////////////////////////////////////////
         }
         catch( Exception e){
-            saveOutputFile(errorObj);
+            saveOutputFile(errorObj, outputFile);
         }
   
     }
@@ -241,8 +242,8 @@ public class Refund {
      * @param obj
      * @throws IOException 
      */
-    public static void saveOutputFile(JSONObject obj) throws IOException{
-        FileWriter file = new FileWriter("output.json");
+    public static void saveOutputFile(JSONObject obj, String outputFile) throws IOException{
+        FileWriter file = new FileWriter(outputFile);
         try {
             file.write(obj.toJSONString());
             System.out.println("Successfully Copied JSON Object to File...");
