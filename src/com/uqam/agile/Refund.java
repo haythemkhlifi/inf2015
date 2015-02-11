@@ -63,18 +63,157 @@ public class Refund {
         }
     }
     
-    public static int calculMontantA(long soin, String montant){
-        return 0;
-    }
-    public static int calculMontantB(long soin, String montant){
-        return 0;
-    }
-    public static int calculMontantC(long soin, String montant){
-        return 0;
-    }
-    public static int calculMontantD(long soin, String montant){
-        return 0;
-    }
+    public static int calculMontantA(int soin, double montant){
+    
+double refund = 0.00;
+    
+    if (soin >= 300 && soin <= 399) {
+        refund = 0.00 ;
+        
+     } else { 
+    
+    switch (soin) {
+case 0:   refund = 0.25*montant;
+break;
+case 100: refund = 0.25*montant;
+break;
+case 200: refund = 0.25*montant;
+break;
+case 400: refund = 0.00;
+break;
+case 500: refund = 0.25*montant;
+break;
+case 600: refund = 0.40*montant;
+break;
+case 700: refund = 0.70*montant;
+break;
+
+default: fileError = true;
+break;
+}
+    }//fin else
+
+return refund;
+}
+
+public static int calculMontantB(int soin, double montant){
+    
+    double refund = 0.00;
+    
+    if (soin >= 300 && soin <= 399) {
+        refund = 0.50*montant;
+                } 
+    else { 
+    
+    switch (soin) {
+case 0: 
+        if (montant > 40.00) { refund = 40.00; }
+           else { refund = 0.50*montant; }
+break;
+case 100: 
+        if (montant > 50.00) { refund = 50.00; }
+           else { refund = 0.50*montant; }
+break;
+case 200: if (montant > 70.00) { refund = 70.00; }
+            else { refund = montant; }
+break;
+case 400: 
+        refund = 0.00;
+break;
+case 500: 
+        if (montant > 50.00) { refund = 50.00; }
+            else { refund = 0.50*montant; }
+break;
+case 600: 
+        refund = montant;
+break;
+case 700: refund = 0.70*montant;
+break;
+
+default: fileError = true;
+break;
+}
+    }//fin else
+
+return refund;
+}
+
+
+
+public static int calculMontantC(int soin, double montant){
+double refund = 0.00;
+    
+    if (soin >= 300 && soin <= 399) {
+        refund = 0.90*montant ;
+        
+     } else { 
+    
+    switch (soin) {
+case 0:   refund = 0.90*montant;
+break;
+case 100: refund = 0.90*montant;
+break;
+case 200: refund = 0.90*montant;
+break;
+case 400: refund = 0.00;
+break;
+case 500: refund = 0.90*montant;
+break;
+case 600: refund = 0.90*montant;
+break;
+case 700: refund = 0.90*montant;
+break;
+
+default: fileError = true;
+break;
+}
+    }//fin else
+
+return refund;
+}
+
+public static int calculMontantD(int soin, double montant){
+    
+double refund = 0.00;
+    
+    if (soin >= 300 && soin <= 399) {
+        refund = montant;
+                } 
+    else { 
+    
+    switch (soin) {
+case 0: 
+        if (montant > 85.00) { refund = 85.00; }
+           else { refund = montant; }
+break;
+case 100: 
+        if (montant > 75.00) { refund = 75.00; }
+           else { refund = montant; }
+break;
+case 200: if (montant > 100.00) { refund = 100.00; }
+            else { refund = montant; }
+break;
+case 400: if (montant > 65.00) { refund = 65.00; }
+            else { refund = montant; }
+break;
+case 500: 
+        if (montant > 75.00) { refund = 75.00; }
+            else { refund = montant; }
+break;
+case 600: if (montant > 100.00) { refund = 100.00; }
+            else { refund = montant; }
+break;
+case 700: if (montant > 90.00) { refund = 90.00; }
+            else { refund = montant; }
+break;
+
+default: fileError = true;
+break;
+}
+    }//fin else
+
+return refund;
+}
     
     public void saveOutputFile(JSONObject obj) throws IOException{
         FileWriter file = new FileWriter("output.xml");
