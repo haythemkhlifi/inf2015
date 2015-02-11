@@ -24,20 +24,16 @@ public class Refund {
             JSONObject resultingObj = new JSONObject();
         
             /////////////////////////////////////////////////////////
-            //********LECTURE ET ECRITURE
+            //////////////   LECTURE ///////////////////////////////
             //on récupere la valeur du contrat du fichier source
             String contrat  = (String) obj.get("contrat");
             //on récupere la valeur du client du fichier source
             String client  = (String) obj.get("client");
-            //enregistre le client dans le fichier de sortie
-            resultingObj.put("client",client);
             //on récupere la valeur du mois du fichier source
             String mois  = (String) obj.get("mois");
-            //enregistre le mois dans le fichier de sortie
-            resultingObj.put("mois",mois);
             //on récupere les réclamations du fichier source
             JSONArray reclamations = (JSONArray) obj.get("reclamations");
-            //////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////
             
             //on parcours la liste des réclamations
             Iterator i = reclamations.iterator();
@@ -59,12 +55,19 @@ public class Refund {
                          break;
                 }
             }
+            /////////////////////////////////////////////////////
+            ///////////      Ecriture ///////////////////////////
+            //enregistre le client dans le fichier de sortie
+            resultingObj.put("client",client);
+            //enregistre le mois dans le fichier de sortie
+            resultingObj.put("mois",mois);
             //enregistre les réclamations du client dans l'object qui sera enregistré dans le fichier de sortie
             resultingObj.put("reclamations",reclamations);
             //En cas d'erreur (données Invalides)
             if (errorDetected) resultingObj = errorObj;
             //Sauvegarde l'objet JSON dans le fichier de sortie
             saveOutputFile(resultingObj);
+            ///////////////////////////////////////////////////////
         }
         catch( Exception e){
             saveOutputFile(errorObj);
@@ -168,7 +171,7 @@ public class Refund {
     }
     
     public static void saveOutputFile(JSONObject obj) throws IOException{
-        FileWriter file = new FileWriter("output.xml");
+        FileWriter file = new FileWriter("output.json");
         try {
             file.write(obj.toJSONString());
             System.out.println("Successfully Copied JSON Object to File...");
