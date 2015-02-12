@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.regex.Pattern;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,13 +15,24 @@ import org.json.simple.parser.JSONParser;
 
 public class Refund {
     public static void main(String[] args) throws IOException {
+        
+        String outputFile = null ,inputFile = null;
+        
+        if (args.length == 2){
+            inputFile = args[0];
+            outputFile = args[1];
+        }    
+        else{
+            System.err.println("Usage: java -jar Refund.jar inputfile.json refunds.json");
+            System.exit(1);
+        }    
+        
         JSONParser parser = new JSONParser();
-        String outputFile = "output.json";
-        String inputFile = "file.json";
+        
         //L'object JSON retournée en cas d'erreur
         JSONObject errorObj = new JSONObject();
         errorObj.put("message","Données invalides");
-  
+        
         try {
             Object fileobject = parser.parse(new FileReader(inputFile));
             JSONObject obj = (JSONObject) fileobject;
